@@ -2,6 +2,7 @@ import { useEffect, useState } from "react";
 import axios from "axios";
 import { toast } from "react-toastify";
 import { useNavigate } from "react-router-dom";
+import BackButton from "../../components/BackButton";
 
 export default function CreateSalePage() {
   const [products, setProducts] = useState([]);
@@ -60,6 +61,9 @@ export default function CreateSalePage() {
 
   return (
     <div className="min-h-screen bg-[#F7F0F0] p-6">
+      <div className="relative p-4">
+        <BackButton />
+      </div>
       <div className="max-w-md mx-auto bg-white p-6 rounded-2xl shadow-lg">
         <h2 className="text-2xl font-bold text-gray-800 mb-6">
           Registrar Venda

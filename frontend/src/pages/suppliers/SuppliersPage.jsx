@@ -2,6 +2,7 @@ import { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import axios from "axios";
 import { toast } from "react-toastify";
+import BackButton from "../../components/BackButton";
 
 export default function SuppliersPage() {
   const [suppliers, setSuppliers] = useState([]);
@@ -43,6 +44,9 @@ export default function SuppliersPage() {
 
   return (
     <div className="min-h-screen bg-[#F7F0F0] p-6">
+      <div className="relative p-4">
+        <BackButton />
+      </div>
       <div className="max-w-6xl mx-auto bg-[#FFFBFA] rounded-2xl p-6 shadow-xl">
         <div className="flex justify-between items-center mb-6">
           <h2 className="text-2xl font-bold text-[#8AF3FF]">Fornecedores</h2>

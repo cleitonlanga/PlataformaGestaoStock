@@ -2,6 +2,7 @@ import React, { useEffect, useState } from "react";
 import axios from "axios";
 import { toast } from "react-toastify";
 import { useNavigate } from "react-router-dom";
+import BackButton from "../../components/BackButton";
 
 const UsersPage = () => {
   const [users, setUsers] = useState([]);
@@ -53,6 +54,9 @@ const UsersPage = () => {
         minHeight: "100vh",
       }}
     >
+      <div className="relative p-4">
+        <BackButton />
+      </div>
       <h2 style={{ color: "#333" }}>Gestão de Utilizadores</h2>
       <button
         onClick={() => navigate("/register")}

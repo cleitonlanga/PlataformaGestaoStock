@@ -12,6 +12,7 @@ import {
   ResponsiveContainer,
 } from "recharts";
 import { format } from "date-fns";
+import BackButton from "../../components/BackButton";
 
 const COLORS = ["#8AF3FF", "#F7F0F0", "#FFFBFA", "#b2ebf2", "#ffccbc"];
 
@@ -38,6 +39,9 @@ export default function ReportsPage() {
 
   return (
     <div className="p-6 space-y-6 bg-[#FFFBFA] min-h-screen text-gray-800">
+      <div className="relative p-4">
+        <BackButton />
+      </div>
       <h1 className="text-3xl font-bold text-[#333]">Relatórios</h1>
 
       {/* Cards de resumo */}

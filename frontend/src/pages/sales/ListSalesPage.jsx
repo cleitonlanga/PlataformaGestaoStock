@@ -2,6 +2,7 @@ import { useEffect, useState } from "react";
 import axios from "axios";
 import { format } from "date-fns";
 import { toast } from "react-toastify";
+import BackButton from "../../components/BackButton";
 
 export default function ListSalesPage() {
   const [sales, setSales] = useState([]);
@@ -53,6 +54,9 @@ export default function ListSalesPage() {
 
   return (
     <div className="min-h-screen p-6 bg-[#FFFBFA]">
+      <div className="relative p-4">
+        <BackButton />
+      </div>
       <h1 className="text-3xl font-bold mb-6 text-[#333]">
         📋 Lista de Vendas
       </h1>

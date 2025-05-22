@@ -2,6 +2,7 @@ import { useEffect, useState } from "react";
 import { useParams, useNavigate } from "react-router-dom";
 import axios from "axios";
 import { toast } from "react-toastify";
+import BackButton from "../../components/BackButton";
 
 export default function EditUserPage() {
   const { id } = useParams();
@@ -63,6 +64,9 @@ export default function EditUserPage() {
 
   return (
     <div style={styles.container}>
+      <div className="relative p-4">
+        <BackButton />
+      </div>
       <h2 style={styles.title}>Editar Utilizador</h2>
       <form onSubmit={handleSubmit} style={styles.form}>
         <div style={styles.field}>

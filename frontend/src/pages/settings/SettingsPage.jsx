@@ -1,40 +1,110 @@
-import { useContext } from "react";
-import { AuthContext } from "../context/AuthContext";
-import { useNavigate } from "react-router-dom";
+import { useState } from "react";
+import BackButton from "@/components/BackButton";
 
 export default function SettingsPage() {
-  const { user, logout } = useContext(AuthContext);
-  const navigate = useNavigate();
+  const [notificationsEnabled, setNotificationsEnabled] = useState(true);
+  const [language, setLanguage] = useState("pt");
+  const [theme, setTheme] = useState("light");
+  const [font, setFont] = useState("sans");
 
+  const [openSection, setOpenSection] = useState(null);
+
+  const toggleSection = (section) => {
+    setOpenSection(openSection === section ? null : section);
+  };
+  
   return (
-    <div className="min-h-screen bg-[#F7F0F0] flex flex-col items-center p-8">
-      <h1 className="text-3xl font-bold mb-8 text-gray-700">Configurações</h1>
+    <div className="relative p-4">
+      <div className="relative p-4">
+        <BackButton />
+      </div>
 
-      <div className="bg-white p-6 rounded-xl shadow-md w-full max-w-md">
-        <h2 className="text-xl font-semibold mb-4 text-gray-700">Perfil</h2>
-        <p>
-          <strong>Nome:</strong> {user?.name || "N/A"}
-        </p>
-        <p>
-          <strong>Nome de utilizador:</strong> {user?.username || "N/A"}
-        </p>
-        <p>
-          <strong>Função:</strong> {user?.role || "N/A"}
-        </p>
+      <h1 className="text-3xl font-semibold mb-6 text-[#333]">Configurações</h1>
 
+      {/* Notificações */}
+      <div className="mb-4 border rounded-md">
         <button
-          onClick={() => navigate("/change-password")}
-          className="mt-6 w-full bg-[#8AF3FF] hover:bg-[#6fdde7] text-white font-semibold py-2 rounded-md transition duration-200"
+          onClick={() => toggleSection("notifications")}
+          className="w-full text-left p-4 font-medium bg-gray-100 hover:bg-gray-200"
         >
-          Alterar Password
+          Notificações
         </button>
+        {openSection === "notifications" && (
+          <div className="p-4 space-y-2">
+            <label className="flex items-center gap-2">
+              <input
+                type="checkbox"
+                checked={notificationsEnabled}
+                onChange={() => setNotificationsEnabled(!notificationsEnabled)}
+              />
+              Ativar notificações
+            </label>
+          </div>
+        )}
+      </div>
 
+      {/* Preferências */}
+      <div className="mb-4 border rounded-md">
         <button
-          onClick={logout}
-          className="mt-4 w-full bg-red-500 hover:bg-red-600 text-white font-semibold py-2 rounded-md transition duration-200"
+          onClick={() => toggleSection("preferences")}
+          className="w-full text-left p-4 font-medium bg-gray-100 hover:bg-gray-200"
         >
-          Sair
+          Preferências
         </button>
+        {openSection === "preferences" && (
+          <div className="p-4 space-y-2">
+            <label>
+              Idioma:
+              <select
+                className="ml-2 border px-2 py-1 rounded"
+                value={language}
+                onChange={(e) => setLanguage(e.target.value)}
+              >
+                <option value="pt">Português</option>
+                <option value="en">Inglês</option>
+                <option value="es">Espanhol</option>
+              </select>
+            </label>
+          </div>
+        )}
+      </div>
+
+      {/* Interface */}
+      <div className="mb-4 border rounded-md">
+        <button
+          onClick={() => toggleSection("interface")}
+          className="w-full text-left p-4 font-medium bg-gray-100 hover:bg-gray-200"
+        >
+          Interface
+        </button>
+        {openSection === "interface" && (
+          <div className="p-4 space-y-4">
+            <div>
+              <label className="mr-2 font-medium">Tema:</label>
+              <select
+                value={theme}
+                onChange={(e) => setTheme(e.target.value)}
+                className="border px-2 py-1 rounded"
+              >
+                <option value="light">Claro</option>
+                <option value="dark">Escuro</option>
+              </select>
+            </div>
+
+            <div>
+              <label className="mr-2 font-medium">Fonte:</label>
+              <select
+                value={font}
+                onChange={(e) => setFont(e.target.value)}
+                className="border px-2 py-1 rounded"
+              >
+                <option value="sans">Sans</option>
+                <option value="serif">Serif</option>
+                <option value="mono">Monoespaçada</option>
+              </select>
+            </div>
+          </div>
+        )}
       </div>
     </div>
   );

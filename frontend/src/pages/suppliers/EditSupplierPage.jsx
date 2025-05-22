@@ -2,6 +2,7 @@ import { useEffect, useState } from "react";
 import { useNavigate, useParams } from "react-router-dom";
 import axios from "axios";
 import { toast } from "react-toastify";
+import BackButton from "../../components/BackButton";
 
 export default function EditSupplierPage() {
   const { id } = useParams();
@@ -51,6 +52,9 @@ export default function EditSupplierPage() {
 
   return (
     <div className="min-h-screen bg-[#F7F0F0] p-6 flex items-center justify-center">
+      <div className="relative p-4">
+        <BackButton />
+      </div>
       <form
         onSubmit={handleSubmit}
         className="bg-[#FFFBFA] shadow-xl p-8 rounded-2xl w-full max-w-lg"

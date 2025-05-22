@@ -2,6 +2,7 @@ import { useState, useEffect } from "react";
 import { useNavigate, useParams } from "react-router-dom";
 import axios from "axios";
 import { toast } from "react-toastify";
+import BackButton from "../../components/BackButton";
 
 export default function EditProductPage() {
   const { id } = useParams();
@@ -67,6 +68,9 @@ export default function EditProductPage() {
 
   return (
     <div className="min-h-screen bg-[#F7F0F0] flex flex-col items-center p-6">
+      <div className="relative p-4">
+        <BackButton />
+      </div>
       <div className="w-full max-w-xl bg-[#FFFBFA] p-6 rounded-2xl shadow-xl">
         <h2 className="text-2xl font-bold text-[#8AF3FF] mb-6 text-center">
           Editar Produto

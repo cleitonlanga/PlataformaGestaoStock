@@ -2,6 +2,7 @@ import { useState, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
 import axios from "axios";
 import { toast } from "react-toastify";
+import BackButton from "../../components/BackButton";
 
 export default function CreateProductPage() {
   const [name, setName] = useState("");
@@ -61,6 +62,9 @@ export default function CreateProductPage() {
   return (
     <div className="min-h-screen bg-[#F7F0F0] flex flex-col items-center p-6">
       <div className="w-full max-w-xl bg-[#FFFBFA] p-6 rounded-2xl shadow-xl">
+        <div className="relative p-4">
+          <BackButton />
+        </div>
         <h2 className="text-2xl font-bold text-[#8AF3FF] mb-6 text-center">
           Adicionar Produto
         </h2>

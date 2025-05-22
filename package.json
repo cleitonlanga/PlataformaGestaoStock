@@ -1,16 +1,19 @@
 {
   "name": "plataformagestaostock",
   "version": "1.0.0",
-  "description": "",
-  "type": "module",
-  "main": "backend/server.js",
-  "scripts": {
-    "dev": "nodemon backend/server.js",
-    "start": "node backend/server.js"
-  },
-  "keywords": [],
+  "homepage": "./",
+  "description": "Sistema de Gestão de Estoque com Previsão de Demanda",
   "author": "",
   "license": "ISC",
+  "main": "main.js",
+  "type": "module",
+  "scripts": {
+    "dev": "nodemon backend/server.js",
+    "start": "electron .",
+    "pack": "electron-builder --dir",
+    "dist": "electron-builder"
+  },
+  "keywords": [],
   "dependencies": {
     "bcrypt": "^6.0.0",
     "bcryptjs": "^3.0.2",
@@ -22,6 +25,37 @@
     "mongoose": "^8.15.0"
   },
   "devDependencies": {
+    "electron": "^36.2.1",
+    "electron-builder": "^24.13.3",
     "nodemon": "^3.1.10"
+  },
+  "build": {
+    "appId": "com.gestaostock.app",
+    "productName": "Gestor de Inventário",
+    "directories": {
+      "buildResources": "assets"
+    },
+    "files": [
+      "backend/**/*",
+      "frontend/dist/**/*",
+      "main.js",
+      "package.json",
+      ".env"
+    ],
+    "extraResources": [
+      {
+        "from": "frontend/dist",
+        "to": "dist"
+      }
+    ],
+    "win": {
+      "target": "nsis",
+      "icon": "assets/icon.ico"
+    },
+    "nsis": {
+      "oneClick": false,
+      "perMachine": false,
+      "allowToChangeInstallationDirectory": true
+    }
   }
 }

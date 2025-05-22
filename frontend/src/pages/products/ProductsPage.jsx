@@ -3,6 +3,7 @@ import axios from "axios";
 import { useNavigate } from "react-router-dom";
 import { FaPlus, FaEdit } from "react-icons/fa";
 import { toast } from "react-toastify";
+import BackButton from "../../components/BackButton";
 
 export default function ProductsPage() {
   const [products, setProducts] = useState([]);
@@ -30,6 +31,9 @@ export default function ProductsPage() {
   return (
     <div className="min-h-screen bg-[#F7F0F0] p-6">
       <div className="flex justify-between items-center mb-6">
+        <div className="relative p-4">
+          <BackButton />
+        </div>
         <h1 className="text-2xl font-semibold text-[#8AF3FF]">Produtos</h1>
         <button
           onClick={() => navigate("/products/create")}

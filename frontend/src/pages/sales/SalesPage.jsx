@@ -1,5 +1,6 @@
 import { useNavigate } from "react-router-dom";
 import { FaList, FaPlus, FaChartBar } from "react-icons/fa";
+import BackButton from "../../components/BackButton";
 
 export default function SalesPage() {
   const navigate = useNavigate();
@@ -27,7 +28,12 @@ export default function SalesPage() {
 
   return (
     <div className="min-h-screen bg-[#F7F0F0] p-6">
-      <h1 className="text-2xl font-bold mb-6 text-gray-800">Gestão de Vendas</h1>
+      <div className="relative p-4">
+        <BackButton />
+      </div>
+      <h1 className="text-2xl font-bold mb-6 text-gray-800">
+        Gestão de Vendas
+      </h1>
       <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
         {menuOptions.map((option, index) => (
           <div
@@ -37,7 +43,9 @@ export default function SalesPage() {
           >
             <div className="flex items-center gap-4 mb-4 text-[#8AF3FF]">
               {option.icon}
-              <h2 className="text-xl font-semibold text-gray-800">{option.title}</h2>
+              <h2 className="text-xl font-semibold text-gray-800">
+                {option.title}
+              </h2>
             </div>
             <p className="text-gray-600">{option.description}</p>
           </div>

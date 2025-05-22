@@ -3,6 +3,7 @@ import { AuthContext } from "../context/AuthContext";
 import axios from "axios";
 import { toast } from "react-toastify";
 import { useNavigate } from "react-router-dom";
+import BackButton from "../../components/BackButton";
 
 export default function ChangePasswordPage() {
   const { user } = useContext(AuthContext);
@@ -49,6 +50,9 @@ export default function ChangePasswordPage() {
 
   return (
     <div className="min-h-screen flex items-center justify-center bg-[#F7F0F0]">
+      <div className="relative p-4">
+        <BackButton />
+      </div>
       <form
         onSubmit={handleSubmit}
         className="bg-white p-8 rounded-lg shadow-md w-full max-w-md"

@@ -1,4 +1,5 @@
 import { useEffect, useState } from "react";
+import BackButton from "../../components/BackButton";
 import axios from "axios";
 import { toast } from "react-toastify";
 import {
@@ -72,6 +73,9 @@ export default function ForecastPage() {
 
   return (
     <div className="min-h-screen bg-[#F7F0F0] p-6">
+      <div className="relative p-4">
+        <BackButton />
+      </div>
       <h1 className="text-3xl font-semibold mb-4 text-[#333]">
         Previsão de Demanda
       </h1>
