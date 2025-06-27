@@ -1,5 +1,5 @@
 import { useEffect, useState } from "react";
-import axios from "axios";
+import api from "../../api/axios";
 import { format } from "date-fns";
 import { toast } from "react-toastify";
 import BackButton from "../../components/BackButton";
@@ -17,7 +17,7 @@ export default function ListSalesPage() {
 
   const fetchSales = async () => {
     try {
-      const { data } = await axios.get("/api/sales", {
+      const { data } = await api.get("/sales", {
         headers: {
           Authorization: `Bearer ${localStorage.getItem("token")}`,
         },

@@ -1,5 +1,5 @@
 import { useEffect, useState } from "react";
-import axios from "axios";
+import api from "../../api/axios"
 import {
   BarChart,
   Bar,
@@ -27,7 +27,7 @@ export default function ReportsPage() {
 
   const fetchReports = async () => {
     try {
-      const { data } = await axios.get("/api/sales/report"); // Precisa de endpoint
+      const { data } = await api.get("/sales/report"); // Precisa de endpoint
       console.log(data);
       setSales(data.sales);
       setTotalRevenue(data.totalRevenue);

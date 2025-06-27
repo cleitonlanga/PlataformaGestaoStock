@@ -1,6 +1,6 @@
 import { useState, useContext } from "react";
 import { AuthContext } from "../context/AuthContext";
-import axios from "axios";
+import api from "../../api/axios";
 import { toast } from "react-toastify";
 import { useNavigate } from "react-router-dom";
 import BackButton from "../../components/BackButton";
@@ -27,7 +27,7 @@ export default function ChangePasswordPage() {
     }
 
     try {
-      await axios.put(
+      await api.put(
         `/api/users/reset-password/${user._id}`,
         {
           currentPassword: form.currentPassword,

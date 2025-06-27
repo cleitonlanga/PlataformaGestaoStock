@@ -1,6 +1,6 @@
 import { useEffect, useState } from "react";
 import { useNavigate, useParams } from "react-router-dom";
-import axios from "axios";
+import api from "../../api/axios";
 import { toast } from "react-toastify";
 import BackButton from "../../components/BackButton";
 
@@ -21,7 +21,7 @@ export default function EditSupplierPage() {
   const fetchSupplier = async () => {
     try {
       const token = localStorage.getItem("token");
-      const res = await axios.get(`http://localhost:5000/api/suppliers/${id}`, {
+      const res = await api.get(`/suppliers/${id}`, {
         headers: { Authorization: `Bearer ${token}` },
       });
       setForm(res.data);
@@ -39,7 +39,7 @@ export default function EditSupplierPage() {
     e.preventDefault();
     try {
       const token = localStorage.getItem("token");
-      await axios.put(`http://localhost:5000/api/suppliers/${id}`, form, {
+      await api.put(`/suppliers/${id}`, form, {
         headers: { Authorization: `Bearer ${token}` },
       });
       toast.success("Fornecedor atualizado com sucesso!");

@@ -1,6 +1,6 @@
 import { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
-import axios from "axios";
+import api from "../../api/axios";
 import { toast } from "react-toastify";
 import BackButton from "../../components/BackButton";
 
@@ -15,7 +15,7 @@ export default function SuppliersPage() {
   const fetchSuppliers = async () => {
     try {
       const token = localStorage.getItem("token");
-      const res = await axios.get("http://localhost:5000/api/suppliers", {
+      const res = await api.get("/suppliers", {
         headers: { Authorization: `Bearer ${token}` },
       });
       setSuppliers(res.data);
@@ -31,7 +31,7 @@ export default function SuppliersPage() {
 
     try {
       const token = localStorage.getItem("token");
-      await axios.delete(`http://localhost:5000/api/suppliers/${id}`, {
+      await api.delete(`/suppliers/${id}`, {
         headers: { Authorization: `Bearer ${token}` },
       });
       toast.success("Fornecedor removido com sucesso");

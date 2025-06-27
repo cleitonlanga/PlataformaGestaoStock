@@ -1,6 +1,6 @@
 import { useEffect, useState } from "react";
 import BackButton from "../../components/BackButton";
-import axios from "axios";
+import api from "../../api/axios";
 import { toast } from "react-toastify";
 import {
   LineChart,
@@ -22,7 +22,7 @@ export default function ForecastPage() {
   useEffect(() => {
     async function fetchProducts() {
       try {
-        const response = await axios.get("api/products", {
+        const response = await api.get("/products", {
           headers: {
             Authorization: `Bearer ${localStorage.getItem("token")}`,
           },
@@ -55,7 +55,7 @@ export default function ForecastPage() {
 
     try {
       setLoading(true);
-      const response = await axios.get(`api/forecast/${selectedProduct}`, {
+      const response = await api.get(`/forecast/${selectedProduct}`, {
         headers: {
           Authorization: `Bearer ${localStorage.getItem("token")}`,
         },

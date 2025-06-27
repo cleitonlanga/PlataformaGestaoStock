@@ -1,6 +1,6 @@
 import { useState } from "react";
 import { useNavigate } from "react-router-dom";
-import axios from "axios";
+import api from "../../api/axios";
 import { toast } from "react-toastify";
 import BackButton from "../../components/BackButton";
 
@@ -21,7 +21,7 @@ export default function CreateSupplierPage() {
     e.preventDefault();
     try {
       const token = localStorage.getItem("token");
-      await axios.post("http://localhost:5000/api/suppliers", form, {
+      await api.post("/suppliers", form, {
         headers: { Authorization: `Bearer ${token}` },
       });
       toast.success("Fornecedor criado com sucesso!");

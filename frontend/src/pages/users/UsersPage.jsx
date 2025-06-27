@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from "react";
-import axios from "axios";
+import api from "../../api/axios";
 import { toast } from "react-toastify";
 import { useNavigate } from "react-router-dom";
 import BackButton from "../../components/BackButton";
@@ -11,7 +11,7 @@ const UsersPage = () => {
   const fetchUsers = async () => {
     try {
       const token = localStorage.getItem("token");
-      const response = await axios.get("api/users", {
+      const response = await api.get("/users", {
         headers: { Authorization: `Bearer ${token}` },
       });
       setUsers(response.data);
@@ -31,7 +31,7 @@ const UsersPage = () => {
 
     try {
       const token = localStorage.getItem("token");
-      await axios.delete(`/api/users/${id}`, {
+      await api.delete(`/users/${id}`, {
         headers: { Authorization: `Bearer ${token}` },
       });
       toast.success("Utilizador removido com sucesso");

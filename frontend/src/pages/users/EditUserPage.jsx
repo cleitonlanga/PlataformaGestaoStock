@@ -1,6 +1,6 @@
 import { useEffect, useState } from "react";
 import { useParams, useNavigate } from "react-router-dom";
-import axios from "axios";
+import api from "../../api/axios";
 import { toast } from "react-toastify";
 import BackButton from "../../components/BackButton";
 
@@ -17,7 +17,7 @@ export default function EditUserPage() {
   useEffect(() => {
     const fetchUser = async () => {
       try {
-        const res = await axios.get(`/api/users/${id}`, {
+        const res = await api.get(`/users/${id}`, {
           headers: {
             Authorization: `Bearer ${localStorage.getItem("token")}`,
           },
@@ -48,7 +48,7 @@ export default function EditUserPage() {
     e.preventDefault();
 
     try {
-      await axios.put(`/api/users/${id}`, userData, {
+      await api.put(`/users/${id}`, userData, {
         headers: {
           Authorization: `Bearer ${localStorage.getItem("token")}`,
         },

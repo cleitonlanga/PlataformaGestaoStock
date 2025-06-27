@@ -1,5 +1,5 @@
 import { useEffect, useState } from "react";
-import axios from "axios";
+import api from "../../api/axios";
 import { useNavigate } from "react-router-dom";
 import { FaPlus, FaEdit } from "react-icons/fa";
 import { toast } from "react-toastify";
@@ -12,7 +12,7 @@ export default function ProductsPage() {
   const fetchProducts = async () => {
     try {
       const token = localStorage.getItem("token");
-      const { data } = await axios.get("http://localhost:5000/api/products", {
+      const { data } = await api.get("/products", {
         headers: {
           Authorization: `Bearer ${token}`,
         },

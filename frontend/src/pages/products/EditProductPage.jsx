@@ -1,6 +1,6 @@
 import { useState, useEffect } from "react";
 import { useNavigate, useParams } from "react-router-dom";
-import axios from "axios";
+import api from "../../api/axios";
 import { toast } from "react-toastify";
 import BackButton from "../../components/BackButton";
 
@@ -21,10 +21,10 @@ export default function EditProductPage() {
         const token = localStorage.getItem("token");
 
         const [productRes, suppliersRes] = await Promise.all([
-          axios.get(`http://localhost:5000/api/products/${id}`, {
+          api.get(`/products/${id}`, {
             headers: { Authorization: `Bearer ${token}` },
           }),
-          axios.get("http://localhost:5000/api/suppliers", {
+          api.get("/suppliers", {
             headers: { Authorization: `Bearer ${token}` },
           }),
         ]);
@@ -52,8 +52,8 @@ export default function EditProductPage() {
     try {
       const token = localStorage.getItem("token");
 
-      await axios.put(
-        `http://localhost:5000/api/products/${id}`,
+      await api.put(
+        `/products/${id}`,
         { name, description, price, stock, supplierId },
         { headers: { Authorization: `Bearer ${token}` } }
       );

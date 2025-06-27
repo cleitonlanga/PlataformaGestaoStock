@@ -1,6 +1,6 @@
 import { useState, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
-import axios from "axios";
+import api from "../../api/axios";
 import { toast } from "react-toastify";
 import BackButton from "../../components/BackButton";
 
@@ -17,12 +17,9 @@ export default function CreateProductPage() {
     const fetchSuppliers = async () => {
       try {
         const token = localStorage.getItem("token");
-        const { data } = await axios.get(
-          "http://localhost:5000/api/suppliers",
-          {
-            headers: { Authorization: `Bearer ${token}` },
-          }
-        );
+        const { data } = await api.get("/suppliers", {
+          headers: { Authorization: `Bearer ${token}` },
+        });
         setSuppliers(data);
       } catch (err) {
         console.log(`Erro ao criar productos ${err}`);
@@ -38,8 +35,8 @@ export default function CreateProductPage() {
 
     try {
       const token = localStorage.getItem("token");
-      await axios.post(
-        "http://localhost:5000/api/products",
+      await api.post(
+        "/products",
         {
           name,
           description,

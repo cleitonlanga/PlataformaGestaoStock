@@ -1,10 +1,9 @@
 import { app, BrowserWindow } from "electron";
+import { fork } from "child_process";
 import path from "path";
-import { exec } from "child_process";
 import { fileURLToPath } from "url";
 import { dirname } from "path";
 
-// Suporte a __dirname em ES Module
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = dirname(__filename);
 
@@ -17,30 +16,24 @@ function createWindow() {
     },
   });
 
-  // Caminho correto do index.html para build local ou empacotado
-  const indexPath = path.join(__dirname, "frontend", "dist", "index.html");
+  win.loadFile(path.join(__dirname, "frontend", "dist", "index.html"));
 
-  win.loadFile(indexPath).catch((err) =>
-    console.error("Erro ao carregar index.html:", err)
-  );
-
-  // Descomente para debug
-  win.webContents.openDevTools();
+  // Retire o comentario para verificar bugs
+  //win.webContents.openDevTools();
 }
 
 app.whenReady().then(() => {
-  // Inicia o backend
-  exec("node backend/server.js", (err, stdout, stderr) => {
-    if (err) {
-      console.error("Erro ao iniciar backend:", err);
-    } else {
-      console.log("Backend iniciado.");
-    }
+  // Iniciar o backend
+  const backendPath = path.join(__dirname, "backend", "server.js");
+  const backend = fork(backendPath, {
+    env: {
+      MONGO_URI:
+        "mongodb+srv://cleytonlanga:8wB4saI4FNiQTrfH@db.uhsy4dz.mongodb.net/?retryWrites=true&w=majority&appName=db", // ou use config.js
+      PORT: "5000",
+    },
   });
 
-  createWindow();
-});
+  backend.on("error", (err) => console.error("Erro no backend:", err));
 
-app.on("window-all-closed", () => {
-  if (process.platform !== "darwin") app.quit();
+  createWindow();
 });

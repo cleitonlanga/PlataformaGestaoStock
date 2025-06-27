@@ -1,5 +1,5 @@
 import { useEffect, useState } from "react";
-import axios from "axios";
+import api from "../../api/axios";
 import { toast } from "react-toastify";
 import { useNavigate } from "react-router-dom";
 import BackButton from "../../components/BackButton";
@@ -17,7 +17,7 @@ export default function CreateSalePage() {
   useEffect(() => {
     const fetchProducts = async () => {
       try {
-        const { data } = await axios.get("/api/products", {
+        const { data } = await api.get("/products", {
           headers: {
             Authorization: `Bearer ${localStorage.getItem("token")}`,
           },
@@ -45,7 +45,7 @@ export default function CreateSalePage() {
     }
 
     try {
-      await axios.post("/api/sales", form, {
+      await api.post("/sales", form, {
         headers: {
           Authorization: `Bearer ${localStorage.getItem("token")}`,
         },
