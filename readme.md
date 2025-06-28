@@ -39,4 +39,4 @@ certifique-se que a porta http://localhost:5000 esteja livre para permitir comun
 username: superadmin
 password: superseguro123
 
-Para ter acesso com outros user vá a utilizadores -> criar novo utilizador
+Para ter acesso com outros users vá a utilizadores -> criar novo utilizador
