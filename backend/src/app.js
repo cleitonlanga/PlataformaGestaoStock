@@ -16,9 +16,6 @@ const app = express();
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = path.dirname(__filename);
 
-// Serve o React build
-const frontendPath = path.resolve(__dirname, "../../frontend/dist");
-
 //Middleware
 app.use(cors());
 app.use(express.json());
@@ -31,10 +28,16 @@ app.use("/api/users", userRoutes);
 app.use("/api/auth", authRoutes);
 app.use("/api/forecast", forecastRoutes);
 
-app.use(express.static(frontendPath));
+// Serve o React build
+const frontendPath = path.join(__dirname, "../fronqtend/dist");
 
-// Qualquer rota não API devolve index.html
-app.get("*", (req, res) => {
-  res.sendFile(path.join(frontendPath, "index.html"));
-});
+if (process.env.NODE_ENV === "production") {
+  app.use(express.static(frontendPath));
+
+  // Qualquer rota não API devolve index.html
+  app.get("*", (req, res) => {
+    res.sendFile(path.join(frontendPath, "index.html"));
+  });
+}
+
 export default app;
