@@ -5,7 +5,7 @@ import { protect } from "../middleware/auth.middleware.js";
 const router = express.Router();
 
 router.get(
-  "/:productID",
+  "/:productId",
   protect(["admin", "superUser", "funcionario"]),
   async (req, res) => {
     const { productId } = req.params;
