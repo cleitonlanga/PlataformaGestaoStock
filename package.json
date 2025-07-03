@@ -10,7 +10,7 @@
   "scripts": {
     "dev": "nodemon backend/server.js",
     "build": "cd frontend && npm install && npm run build",
-    "start": "electron .",
+    "start": "node backend/server.js",
     "pack": "electron-builder --dir",
     "dist": "electron-builder"
   },
