@@ -33,7 +33,10 @@ app.whenReady().then(() => {
     },
   });
 
-  backend.on("error", (err) => console.error("Erro no backend:", err));
+  backend.on('error', (err) => {
+    console.error('Backend process error:', err);
+  });
+  backend.on('exit', (code) => console.log(`Backend process exited with code ${code}`));
 
   createWindow();
 });
