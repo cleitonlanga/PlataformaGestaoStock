@@ -28,16 +28,15 @@ app.use("/api/users", userRoutes);
 app.use("/api/auth", authRoutes);
 app.use("/api/forecast", forecastRoutes);
 
-// Serve o React build
-const frontendPath = path.join(__dirname, "../fronqtend/dist");
+// --- Static file serving and catch-all route ---
 
-if (process.env.NODE_ENV === "production") {
-  app.use(express.static(frontendPath));
+// Serve static files from the React frontend app
+app.use(express.static(path.join(__dirname, "../../frontend/dist")));
 
-  // Qualquer rota não API devolve index.html
-  app.get("*", (req, res) => {
-    res.sendFile(path.join(frontendPath, "index.html"));
-  });
-}
+// The "catch-all" handler: for any request that doesn't
+// match one of the API routes above, send back React's index.html file.
+app.get("*", (req, res) => {
+  res.sendFile(path.join(__dirname, "../../frontend/dist/index.html"));
+});
 
 export default app;
