@@ -9,6 +9,7 @@
   "type": "module",
   "scripts": {
     "dev": "nodemon backend/server.js",
+    "build": "cd frontend && npm install && npm run build",
     "start": "electron .",
     "pack": "electron-builder --dir",
     "dist": "electron-builder"
