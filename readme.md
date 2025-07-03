@@ -1,6 +1,5 @@
 # 📦 Plataforma de Gestão de Inventário com Previsão de Demanda
-
-Uma aplicação de gestão de inventário com funcionalidades completas de fornecedores, vendas, produtos, utilizadores e previsão de demanda. Desenvolvida com Electron para distribuição desktop, React no frontend, Node.js/Express no backend e MongoDB como base de dados.
+Uma aplicação inteligente de gestão de inventário com previsão de demanda baseada em vendas passadas. Permite a gestão de produtos, fornecedores, utilizadores, vendas e preferências, com versões para desktop (Electron) e web (Render).
 
 ---
 
@@ -28,6 +27,12 @@ Uma aplicação de gestão de inventário com funcionalidades completas de forne
 
 ---
 
+🌐 Acesso Online (Render)
+Você pode acessar a versão hospedada diretamente no navegador:
+
+🔗 https://plataformagestaostock.onrender.com
+
+---
 ## 🛠 Instalação
 Para a instalação acesse ao arquivo gestor de inventário setup.exe 
 
