@@ -1,4 +1,6 @@
 import { useEffect, useState } from "react";
+import { useNavigate } from "react-router-dom";
+import { toast } from "react-toastify";
 import api from "../../api/axios"
 import {
   BarChart,
@@ -20,6 +22,8 @@ export default function ReportsPage() {
   const [sales, setSales] = useState([]);
   const [totalRevenue, setTotalRevenue] = useState(0);
   const [topProducts, setTopProducts] = useState([]);
+  const navigate = useNavigate();
+
 
   useEffect(() => {
     fetchReports();
@@ -28,12 +32,18 @@ export default function ReportsPage() {
   const fetchReports = async () => {
     try {
       const { data } = await api.get("/sales/report"); // Precisa de endpoint
-      console.log(data);
+      console.log("Data", data);
       setSales(data.sales);
       setTotalRevenue(data.totalRevenue);
       setTopProducts(data.topProducts);
     } catch (err) {
-      console.error("Erro ao carregar relatório", err);
+      console.error("Erro ao carregar relatório:", err);
+      if (err.response && err.response.status === 401) {
+        toast.error("Sua sessão expirou. Por favor, faça login novamente.");
+        navigate("/login"); // Redirect to login page
+      } else {
+        toast.error("Erro ao carregar o relatório.");
+      }
     }
   };
 
