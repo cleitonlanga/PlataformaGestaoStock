@@ -32,7 +32,7 @@ export default function ReportsPage() {
   const fetchReports = async () => {
     try {
       const { data } = await api.get("/sales/report"); // Precisa de endpoint
-      console.log("Data", data);
+     
       setSales(data.sales);
       setTotalRevenue(data.totalRevenue);
       setTopProducts(data.topProducts);

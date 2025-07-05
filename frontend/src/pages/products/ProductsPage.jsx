@@ -7,25 +7,35 @@ import BackButton from "../../components/BackButton";
 
 export default function ProductsPage() {
   const [products, setProducts] = useState([]);
+  const [suppliers, setSuppliers] = useState([]);
   const navigate = useNavigate();
 
-  const fetchProducts = async () => {
+  // Create a map for quick supplier lookup once suppliers are fetched
+  const supplierMap = new Map(suppliers.map((s) => [s._id, s.name]));
+
+  const fetchData = async () => {
     try {
-      const token = localStorage.getItem("token");
-      const { data } = await api.get("/products", {
-        headers: {
-          Authorization: `Bearer ${token}`,
-        },
-      });
-      setProducts(data);
+      // Assuming you have an Axios interceptor to handle the token.
+      // This fetches both products and suppliers at the same time.
+      const [productsRes, suppliersRes] = await Promise.all([
+        api.get("/products"),
+        api.get("/suppliers"),
+      ]);
+      setProducts(productsRes.data);
+      setSuppliers(suppliersRes.data);
     } catch (error) {
-      console.log(`Erro ao carregar productos ${error}`);
-      toast.error("Erro ao carregar produtos");
+      console.error("Erro ao carregar dados da página de produtos:", error);
+      if (error.response && error.response.status === 401) {
+        toast.error("Sua sessão expirou. Por favor, faça login novamente.");
+        navigate("/login");
+      } else {
+        toast.error("Erro ao carregar os dados.");
+      }
     }
   };
 
   useEffect(() => {
-    fetchProducts();
+    fetchData();
   }, []);
 
   return (
@@ -74,7 +84,7 @@ export default function ProductsPage() {
                   <td className="px-4 py-3">MZN {product.price}</td>
                   <td className="px-4 py-3">{product.stock}</td>
                   <td className="px-4 py-3">
-                    {product.supplierId?.name || "—"}
+                    {supplierMap.get(product.supplierId) || "—"}
                   </td>
                   <td className="px-4 py-3">
                     <button

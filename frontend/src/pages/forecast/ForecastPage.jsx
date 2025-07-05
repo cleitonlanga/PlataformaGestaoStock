@@ -1,16 +1,11 @@
 import { useEffect, useState } from "react";
 import BackButton from "../../components/BackButton";
+import { useNavigate } from "react-router-dom";
 import api from "../../api/axios";
 import { toast } from "react-toastify";
-import {
-  LineChart,
-  Line,
-  XAxis,
-  YAxis,
-  CartesianGrid,
-  Tooltip,
-  ResponsiveContainer,
-} from "recharts";
+
+import ForecastForm from "./ForecastForm";
+import ForecastChart from "./ForecastChart";
 
 export default function ForecastPage() {
   const [products, setProducts] = useState([]);
@@ -18,19 +13,22 @@ export default function ForecastPage() {
   const [forecast, setForecast] = useState(null);
   const [loading, setLoading] = useState(false);
   const [chartData, setChartData] = useState([]);
+  const navigate = useNavigate();
 
   useEffect(() => {
     async function fetchProducts() {
       try {
-        const response = await api.get("/products", {
-          headers: {
-            Authorization: `Bearer ${localStorage.getItem("token")}`,
-          },
-        });
+        // Assumes an Axios interceptor is in place to handle the auth token.
+        const response = await api.get("/products");
         setProducts(response.data);
       } catch (error) {
-        console.log("Erro ao buscar produtos forecast:", error);
-        toast.error("Erro ao buscar produtos");
+        console.error("Erro ao buscar produtos para previsão:", error);
+        if (error.response && error.response.status === 401) {
+          toast.error("Sua sessão expirou. Por favor, faça login novamente.");
+          navigate("/login");
+        } else {
+          toast.error("Erro ao buscar produtos.");
+        }
       }
     }
 
@@ -55,17 +53,19 @@ export default function ForecastPage() {
 
     try {
       setLoading(true);
-      const response = await api.get(`/forecast/${selectedProduct}`, {
-        headers: {
-          Authorization: `Bearer ${localStorage.getItem("token")}`,
-        },
-      });
+      // Assumes an Axios interceptor is in place to handle the auth token.
+      const response = await api.get(`/forecast/${selectedProduct}`);
       const forecastValue = response.data.forecast;
       setForecast(forecastValue);
       setChartData(generateFakeHistory(forecastValue));
     } catch (error) {
-      console.log("Erro ao prever demanda", error);
-      toast.error("Erro ao prever demanda");
+      console.error("Erro ao prever demanda:", error);
+      if (error.response && error.response.status === 401) {
+        toast.error("Sua sessão expirou. Por favor, faça login novamente.");
+        navigate("/login");
+      } else {
+        toast.error("Erro ao prever demanda.");
+      }
     } finally {
       setLoading(false);
     }
@@ -76,59 +76,23 @@ export default function ForecastPage() {
       <div className="relative p-4">
         <BackButton />
       </div>
-      <h1 className="text-3xl font-semibold mb-4 text-[#333]">
+      <h1 className="text-3xl font-semibold mb-2 text-center text-[#333]">
         Previsão de Demanda
       </h1>
+      <p className="text-gray-600 mb-8 max-w-3xl mx-auto text-center">
+        Esta página utiliza dados históricos de vendas para prever a demanda
+        futura de produtos. Selecione um produto abaixo para visualizar a previsão.
+      </p>
 
-      <div className="bg-white shadow rounded-xl p-6 max-w-2xl mx-auto">
-        <label className="block mb-2 text-gray-700 font-medium">
-          Selecione um produto:
-        </label>
-        <select
-          value={selectedProduct}
-          onChange={(e) => setSelectedProduct(e.target.value)}
-          className="w-full p-2 border border-gray-300 rounded-lg mb-4"
-        >
-          <option value="">-- Selecione --</option>
-          {products.map((product) => (
-            <option key={product._id} value={product._id}>
-              {product.name}
-            </option>
-          ))}
-        </select>
+      <ForecastForm
+        products={products}
+        selectedProduct={selectedProduct}
+        onProductChange={(e) => setSelectedProduct(e.target.value)}
+        onForecast={handleForecast}
+        loading={loading}
+      />
 
-        <button
-          onClick={handleForecast}
-          disabled={loading}
-          className="bg-[#8AF3FF] text-black font-bold py-2 px-4 rounded hover:opacity-90 transition"
-        >
-          {loading ? "Carregando..." : "Ver Previsão"}
-        </button>
-
-        {forecast !== null && (
-          <div className="mt-6 bg-[#FFFBFA] rounded-lg p-4 shadow">
-            <h2 className="text-xl font-bold text-gray-800 mb-2">
-              Previsão: {forecast} unidades
-            </h2>
-
-            <ResponsiveContainer width="100%" height={300}>
-              <LineChart data={chartData}>
-                <CartesianGrid strokeDasharray="3 3" />
-                <XAxis dataKey="dia" />
-                <YAxis />
-                <Tooltip />
-                <Line
-                  type="monotone"
-                  dataKey="demanda"
-                  stroke="#8AF3FF"
-                  strokeWidth={3}
-                  activeDot={{ r: 8 }}
-                />
-              </LineChart>
-            </ResponsiveContainer>
-          </div>
-        )}
-      </div>
+      <ForecastChart forecast={forecast} chartData={chartData} />
     </div>
   );
 }

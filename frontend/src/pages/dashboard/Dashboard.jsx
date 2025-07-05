@@ -1,6 +1,7 @@
 import React from 'react'
 import { useEffect, useState } from "react";
 import api from "../../api/axios";
+import { useNavigate } from "react-router-dom";
 import { toast } from "react-toastify";
 
 export default function Dashboard() {
@@ -10,6 +11,7 @@ export default function Dashboard() {
     totalSales: 0,
     totalRevenue: 0,
   });
+  const navigate = useNavigate();
 
   useEffect(() => {
     const fetchStats = async () => {
@@ -29,7 +31,13 @@ export default function Dashboard() {
           totalRevenue,
         });
       } catch (error) {
-        toast.error(error, "Erro ao carregar os dados do dashboard.");
+        console.error("Erro ao carregar os dados do dashboard:", error);
+        if (error.response && error.response.status === 401) {
+          toast.error("Sua sessão expirou. Por favor, faça login novamente.");
+          navigate("/login");
+        } else {
+          toast.error("Erro ao carregar os dados do dashboard.");
+        }
       }
     };
 

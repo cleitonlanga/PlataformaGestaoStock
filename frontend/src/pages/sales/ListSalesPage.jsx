@@ -1,5 +1,6 @@
 import { useEffect, useState } from "react";
 import api from "../../api/axios";
+import { useNavigate } from "react-router-dom";
 import { format } from "date-fns";
 import { toast } from "react-toastify";
 import BackButton from "../../components/BackButton";
@@ -11,22 +12,26 @@ export default function ListSalesPage() {
   const [endDate, setEndDate] = useState("");
   const [searchProduct, setSearchProduct] = useState("");
 
+  const navigate = useNavigate();
+
   useEffect(() => {
     fetchSales();
   }, []);
 
   const fetchSales = async () => {
     try {
-      const { data } = await api.get("/sales", {
-        headers: {
-          Authorization: `Bearer ${localStorage.getItem("token")}`,
-        },
-      });
+      // Assuming you have an Axios interceptor to handle the token.
+      const { data } = await api.get("/sales");
       setSales(data);
       setFilteredSales(data);
     } catch (error) {
-      console.log("Erro ao carregar vendas: ", error);
-      toast.error("Erro ao carregar vendas");
+      console.error("Erro ao carregar vendas: ", error);
+      if (error.response && error.response.status === 401) {
+        toast.error("Sua sessão expirou. Por favor, faça login novamente.");
+        navigate("/login");
+      } else {
+        toast.error("Erro ao carregar vendas.");
+      }
     }
   };
 
