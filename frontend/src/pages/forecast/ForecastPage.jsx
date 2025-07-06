@@ -71,6 +71,9 @@ export default function ForecastPage() {
     }
   };
 
+  // Find the full product object to pass to the chart for more context
+  const productDetails = products.find((p) => p._id === selectedProduct);
+
   return (
     <div className="min-h-screen bg-[#F7F0F0] p-6">
       <div className="relative p-4">
@@ -92,7 +95,11 @@ export default function ForecastPage() {
         loading={loading}
       />
 
-      <ForecastChart forecast={forecast} chartData={chartData} />
+      <ForecastChart
+        forecast={forecast}
+        chartData={chartData}
+        product={productDetails}
+      />
     </div>
   );
 }
