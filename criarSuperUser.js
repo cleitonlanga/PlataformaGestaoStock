@@ -13,6 +13,5 @@ mongoose.connect(process.env.MONGO_URI).then(async () => {
   });
 
   await user.save();
-  console.log('✅ SuperUser criado com sucesso!');
   process.exit();
 });

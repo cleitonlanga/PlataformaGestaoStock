@@ -1,4 +1,4 @@
-import * as saleService from "../services/sale.service.js";
+import * as saleService from "../services/sales.service.js";
 
 export const createSale = async (req, res) => {
   try {
